@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 50em;
+  min-height: 100vh;
+}
+
+.pane {
+  --offset: 0;
+  flex-grow: 1;
+  transform: rotateX(var(--offset)) rotateY(-5deg);
+  min-height: 75vh;
+  max-width: 60vw;
+
+  display: flex;
+  flex-direction: column;
+
+  :global {
+    h1 {
+      text-align: center;
+      font-weight: 400;
+      font-size: 3rem;
+      margin-top: 0;
+    }
+
+    a > p {
+      margin: 0.5em 0;
+    }
+
+    img {
+      width: 230px;
+    }
+  }
+}
