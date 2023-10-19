@@ -87,13 +87,13 @@ void main() {
 
     vec3 dark = vec3(0.75);
 
-    float offset = snoise(uv * 0.5 + vec2(time * 0.0001)) * 0.2;
+    float offset = snoise(uv * 0.5 + vec2(time * 0.0001)) * 0.4;
 
     float rainbow_offset = scroll * 0.1 + time * 0.0001 + offset;
-    vec3 rainbow = hsv2rgb(vec3(rainbow_offset, 0.2, 0.75));
+    vec3 rainbow = hsv2rgb(vec3(rainbow_offset, 0.3, 0.75));
 
     offset = snoise(uv + vec2(time * 0.0002)) * 0.2;
-    float blend = max(0.0, min(1.0, ((scroll - 1.0) / 2.0) + offset * 7.0));
+    float blend = max(0.0, min(1.0, (scroll - 1.0) + offset * 7.0));
     vec3 color = mix(dark, rainbow, blend);
 
     vec2 coordinates = uv / screen;

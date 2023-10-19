@@ -5,7 +5,7 @@ import styles from "./background.module.css";
 import VERT_SRC from "./shader/bg.vert?raw";
 import FRAG_SRC from "./shader/bg.frag?raw";
 
-const FPS = 30;
+const FPS = 60;
 const MPF = (1 / FPS) * 1000;
 
 const TARGET_SIZE = [1920, 1024];
@@ -57,7 +57,7 @@ export const Background: Component = () => {
 
     handle = requestAnimationFrame(frame);
   }
-  function render(delta: number) {
+  function render(_delta: number) {
     gl.viewport(0, 0, canvas!.width, canvas!.height);
     gl.useProgram(prog);
 
