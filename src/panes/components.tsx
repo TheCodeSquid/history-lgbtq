@@ -13,3 +13,15 @@ export const Grow: ParentComponent = (props) => (
 export const Line: Component = () => (
   <div class={styles.line} />
 );
+
+export const AImg: Component<{
+  text: string,
+  href: string,
+  imgSrc: string,
+  imgAlt: string
+}> = (props) => (
+  <a href={props.href} class={styles.aImg}>
+    <p>{props.text}</p>
+    <img src={props.imgSrc} alt={props.imgAlt}/>
+  </a>
+)

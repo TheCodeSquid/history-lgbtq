@@ -16,3 +16,13 @@
   background-color: var(--text);
   opacity: 0.2;
 }
+
+.aImg {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 1em;
+
+  > p {
+    margin: 0;
+  }
+}

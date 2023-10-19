@@ -1,4 +1,4 @@
-import {Flex, Grow, Line} from "./components";
+import {Flex, Grow, Line, AImg} from "./components";
 
 <Flex>
   <Grow>
@@ -16,16 +16,18 @@ import {Flex, Grow, Line} from "./components";
   <Line/>
 
   <div>
-    <a href="https://www.thetrevorproject.org/">
-      The Trevor Project
-
-      ![The Trevor Project logo](https://upload.wikimedia.org/wikipedia/commons/b/b8/The_Trevor_Project_logo.png)
-    </a>
+    <AImg
+      text="The Trevor Project"
+      href="https://www.thetrevorproject.org/"
+      imgSrc="https://upload.wikimedia.org/wikipedia/commons/b/b8/The_Trevor_Project_logo.png"
+      imgAlt="The Trevor Project logo"
+    />
     
-    <a href="https://outandequal.org/">
-      Out & Equal
-      
-      ![Out & Equal logo](https://outandequal.org/wp-content/uploads/2022/10/OE_Logo_Color.png)
-    </a>
+    <AImg
+      text="Out & Equal"
+      href="https://outandequal.org/"
+      imgSrc="https://outandequal.org/wp-content/uploads/2022/10/OE_Logo_Color.png"
+      imgAlt="Out & Equal logo"
+    />
   </div>
 </Flex>
