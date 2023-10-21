@@ -6,10 +6,15 @@
   min-height: 100vh;
 }
 
-.transparent {
+.light {
   color: var(--background);
   background: var(--background-light);
   backdrop-filter: none;
+
+  a {
+    color: var(--background);
+    background: none;
+  }
 }
 
 .pane {
@@ -22,6 +27,8 @@
   display: flex;
   flex-direction: column;
 
+  position: relative;
+
   :global {
     h1 {
       text-align: center;
@@ -32,6 +39,28 @@
 
     img {
       width: 230px;
+      display: block;
+      margin: 0 auto;
     }
   }
+}
+
+.bg {
+  .hidden {
+    visibility: hidden;
+  }
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  border-radius: var(--radius);
+  background-image: var(--img-url);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  mix-blend-mode: multiply;
 }

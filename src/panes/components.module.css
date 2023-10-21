@@ -10,7 +10,7 @@
 }
 
 .line {
-  width: 2px;
+  width: 5px;
   margin: 0 1em;
   align-self: stretch;
   background-color: var(--text);

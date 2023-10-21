@@ -8,7 +8,8 @@ const SCROLL_MARGIN = 100;
 
 export const Pane: ParentComponent<{
   index: number,
-  transparent?: boolean
+  imgUrl?: string,
+  light?: boolean
 }> = (props) => {
   const ctx = useAppCtx()!;
   const [scroll, setScroll] = createSignal(0);
@@ -39,8 +40,16 @@ export const Pane: ParentComponent<{
     <div classList={{
       "panel": true,
       [styles.pane]: true,
-      [styles.transparent]: props.transparent
-    }} style={{"--offset": (scroll() / window.innerHeight) * 10 + "deg"}}>
+      [styles.light]: props.light
+    }} style={{
+      "--offset": (scroll() / window.innerHeight) * 10 + "deg"
+    }}>
+      <div classList={{
+        [styles.bg]: true,
+        [styles.hidden]: props.imgUrl === undefined
+      }} style={{
+        "--img-url": `url("${props.imgUrl}")`
+      }}/>
       {props.children}
     </div>
   </div>;

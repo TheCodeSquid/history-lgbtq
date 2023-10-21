@@ -7,6 +7,7 @@
   --background-light: hsl(200 80% 90% / 50%);
   --panel: hsl(200 2% 5% / 50%);
 
+  --radius: 1rem;
   --shadow: 0 0 15px -5px hsl(0 0% 75% / 10%), 0 0 5px -4px hsl(0 0% 75% / 25%);
 
   font-family: "Jost", sans-serif;
@@ -39,9 +40,9 @@ a {
 .panel {
   margin: 1rem;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: var(--radius);
   background-color: var(--panel);
-  backdrop-filter: blur(2rem);
+  backdrop-filter: blur(1rem);
 
   box-shadow: var(--shadow);
 }
