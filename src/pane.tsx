@@ -4,8 +4,6 @@ import {useAppCtx} from "./main";
 
 import styles from "./pane.module.css";
 
-const SCROLL_MARGIN = 100;
-
 export const Pane: ParentComponent<{
   index: number,
   imgUrl?: string,
@@ -20,9 +18,9 @@ export const Pane: ParentComponent<{
     const top = elem!.getBoundingClientRect().y;
     setScroll(top);
 
-    if (ctx.pane() < props.index && top <= SCROLL_MARGIN)
+    if (ctx.pane() < props.index && top <= window.innerHeight / 2)
       ctx.setPane(props.index);
-    else if (ctx.pane() > props.index && top >= SCROLL_MARGIN - window.innerHeight)
+    else if (ctx.pane() > props.index && top >= -window.innerHeight / 2)
       ctx.setPane(props.index);
   };
 
