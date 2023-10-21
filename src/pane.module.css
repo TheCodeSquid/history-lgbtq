@@ -6,6 +6,12 @@
   min-height: 100vh;
 }
 
+.transparent {
+  color: var(--background);
+  background: var(--background-light);
+  backdrop-filter: none;
+}
+
 .pane {
   --offset: 0;
   flex-grow: 1;

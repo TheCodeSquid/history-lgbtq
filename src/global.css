@@ -4,6 +4,7 @@
   --text: hsl(250 95% 100% / 90%);
   --highlight: hsl(250 95% 100% / 10%);
   --background: hsl(200, 2%, 13%);
+  --background-light: hsl(200 80% 90% / 50%);
   --panel: hsl(200 2% 5% / 50%);
 
   --shadow: 0 0 15px -5px hsl(0 0% 75% / 10%), 0 0 5px -4px hsl(0 0% 75% / 25%);
@@ -43,4 +44,13 @@ a {
   backdrop-filter: blur(2rem);
 
   box-shadow: var(--shadow);
+}
+
+@keyframes rainbow {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
 }

@@ -1,3 +1,5 @@
+#define PI 3.1415926538
+
 precision highp float;
 
 uniform float time;
@@ -6,7 +8,8 @@ uniform vec2 screen;
 
 varying vec2 v_pos;
 
-// https://github.com/stegu/webgl-noise
+// https://github.com/stegu/webgl-noise/blob/master/src/noise2D.glsl
+
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
@@ -81,22 +84,28 @@ float random(vec2 coords) {
    return fract(sin(dot(coords.xy, vec2(12.9898,78.233))) * 43758.5453);
 }
 
+float quint_easing(float x) {
+    return pow(1.0 - x, 5.0);
+}
+
 void main() {
-    vec2 uv = v_pos;
-    uv.y -= scroll;
+    vec2 uv = v_pos * vec2(1.0, -1.0);
+    uv += vec2(1.0);
+    uv *= vec2(0.5);
 
-    vec3 dark = vec3(0.75);
+    uv *= screen;
 
-    float offset = snoise(uv * 0.5 + vec2(time * 0.0001)) * 0.4;
+    float time_scaled = time * 0.0001;
 
-    float rainbow_offset = scroll * 0.1 + time * 0.0001 + offset;
-    vec3 rainbow = hsv2rgb(vec3(rainbow_offset, 0.3, 0.75));
+    vec3 blank = vec3(0.75);
 
-    offset = snoise(uv + vec2(time * 0.0002)) * 0.2;
-    float blend = max(0.0, min(1.0, (scroll - 1.0) + offset * 7.0));
-    vec3 color = mix(dark, rainbow, blend);
+    float hue_noise = snoise(uv + vec2(0.0, scroll)) * 0.4;
+    float hue = time_scaled - hue_noise;
+    vec3 rainbow = hsv2rgb(vec3(hue, 0.3, 0.75));
 
-    vec2 coordinates = uv / screen;
-    color += mix(-NOISE_GRANULARITY, NOISE_GRANULARITY, random(coordinates));
+    float blend_noise = snoise(uv - vec2(0.0, time_scaled * 0.5) + vec2(0.0, scroll * 0.5)) * snoise(uv + vec2(0.0, scroll * 0.5));
+    float blend = min(1.0, pow(blend_noise, 2.0) * 1000.0 * quint_easing(scroll / 5.0));
+    vec3 color = mix(rainbow, blank, blend);
+
     gl_FragColor = vec4(color, 1.0);
 }

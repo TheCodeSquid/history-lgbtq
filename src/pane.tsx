@@ -6,7 +6,10 @@ import styles from "./pane.module.css";
 
 const SCROLL_MARGIN = 100;
 
-export const Pane: ParentComponent<{ index: number }> = (props) => {
+export const Pane: ParentComponent<{
+  index: number,
+  transparent?: boolean
+}> = (props) => {
   const ctx = useAppCtx()!;
   const [scroll, setScroll] = createSignal(0);
 
@@ -33,7 +36,11 @@ export const Pane: ParentComponent<{ index: number }> = (props) => {
   });
 
   return <div class={styles.wrapper} ref={elem}>
-    <div class={`panel ${styles.pane}`} style={{"--offset": (scroll() / window.innerHeight) * 10 + "deg"}}>
+    <div classList={{
+      "panel": true,
+      [styles.pane]: true,
+      [styles.transparent]: props.transparent
+    }} style={{"--offset": (scroll() / window.innerHeight) * 10 + "deg"}}>
       {props.children}
     </div>
   </div>;

@@ -1,4 +1,4 @@
-import {createContext, useContext, createSignal, For, Component, Accessor, Setter, JSXElement} from "solid-js";
+import {Accessor, Component, createContext, createSignal, For, JSXElement, Setter, useContext} from "solid-js";
 import {render} from "solid-js/web";
 
 import "./global.css";
@@ -18,10 +18,17 @@ const AppCtx = createContext<{
 
 export const useAppCtx = () => useContext(AppCtx);
 
+const Landing: Component = () => (
+  <div class={styles.landing}>
+    <h1>The Legal Attack on LGBTQ+ Rights</h1>
+    <sub>Made with 💜 by Diego</sub>
+  </div>
+);
+
 const App: Component = () => {
   const [pane, setPane] = createSignal(0);
 
-  const ctx = { pane, setPane };
+  const ctx = {pane, setPane};
 
   const scrollToPane = () => {
     window.scrollTo({
@@ -29,7 +36,8 @@ const App: Component = () => {
     });
   };
 
-  const panes: JSXElement[] = [
+  const panes: (JSXElement | ["transparent", JSXElement])[] = [
+    ["transparent", <Landing/>],
     <Intro/>,
     <Threats/>,
     <Groups/>,
@@ -41,7 +49,10 @@ const App: Component = () => {
 
     <div class={styles.page}>
       <div class={styles.navWrap}>
-        <nav class="panel">
+        <nav classList={{
+          "panel": true,
+          [styles.top]: pane() === 0
+        }}>
           <For each={Array.from(panes.keys())}>
             {i => <button
               classList={{[styles.on]: ctx.pane() === i}}
@@ -59,9 +70,10 @@ const App: Component = () => {
       <div class={styles.panes}>
         <For each={Array.from(panes.entries())}>
           {([i, pane]) => <div>
-            <Pane index={i}>
-              {pane}
-            </Pane>
+            {Array.isArray(pane) ? <Pane transparent index={i}>{pane[1]}</Pane> :
+              <Pane index={i}>
+                {pane}
+              </Pane>}
           </div>}
         </For>
       </div>
