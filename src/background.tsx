@@ -1,12 +1,11 @@
 import {Component, onMount, onCleanup} from "solid-js";
 
+import {MPF, scroll} from "./util";
+
 import styles from "./background.module.css";
 
 import VERT_SRC from "./shader/bg.vert?raw";
 import FRAG_SRC from "./shader/bg.frag?raw";
-
-const FPS = 60;
-const MPF = (1 / FPS) * 1000;
 
 const TARGET_SIZE = [1920, 1024];
 const VERTICES = new Float32Array([
@@ -17,7 +16,7 @@ const VERTICES = new Float32Array([
 ]);
 
 export const Background: Component = () => {
-  let canvas: HTMLCanvasElement | undefined;
+  let canvas: HTMLCanvasElement | undefined = undefined;
   let gl: WebGL2RenderingContext;
   let prog: WebGLProgram;
   let buf: WebGLBuffer;
@@ -65,7 +64,7 @@ export const Background: Component = () => {
     const uScroll = gl.getUniformLocation(prog, "scroll");
     const uScreen = gl.getUniformLocation(prog, "screen");
     gl.uniform1f(uTime, time);
-    gl.uniform1f(uScroll, window.scrollY / window.innerHeight);
+    gl.uniform1f(uScroll, scroll());
     gl.uniform2fv(uScreen, [
       canvas!.width / TARGET_SIZE[0],
       canvas!.height / TARGET_SIZE[1]

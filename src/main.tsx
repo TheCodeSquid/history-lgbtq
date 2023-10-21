@@ -1,22 +1,16 @@
-import {Accessor, Component, createContext, createSignal, For, JSXElement, Setter, useContext} from "solid-js";
+import {Component, createMemo, For, JSXElement} from "solid-js";
 import {render} from "solid-js/web";
 
 import "./global.css";
 import styles from "./main.module.css";
 import {Pane} from "./pane";
+import {scroll} from "./util";
 import {Background} from "./background";
 
 import Intro from "./panes/intro.mdx";
 import Threats from "./panes/threats.mdx";
 import Groups from "./panes/groups.mdx";
 import Support from "./panes/support.mdx";
-
-const AppCtx = createContext<{
-  pane: Accessor<number>,
-  setPane: Setter<number>
-}>();
-
-export const useAppCtx = () => useContext(AppCtx);
 
 const Landing: Component = () => (
   <div class={styles.landing}>
@@ -26,16 +20,6 @@ const Landing: Component = () => (
 );
 
 const App: Component = () => {
-  const [pane, setPane] = createSignal(0);
-
-  const ctx = {pane, setPane};
-
-  const scrollToPane = () => {
-    window.scrollTo({
-      top: pane() * window.innerHeight
-    });
-  };
-
   const panes: [JSXElement, string?, boolean?][] = [
     [<Landing/>, undefined, true],
     [<Intro/>, "https://upload.wikimedia.org/wikipedia/commons/0/07/Dublin_Trans_Pride_2018_11.jpg"],
@@ -44,7 +28,15 @@ const App: Component = () => {
     [<Support/>, "https://images.unsplash.com/photo-1594850598343-a5b0a83c237d"]
   ];
 
-  return <AppCtx.Provider value={ctx}>
+  const pane = createMemo(() => Math.round(scroll()));
+
+  const scrollToPane = (i: number) => {
+    window.scrollTo({
+      top: i * window.innerHeight
+    });
+  };
+
+  return <>
     <Background/>
 
     <div class={styles.page}>
@@ -55,10 +47,9 @@ const App: Component = () => {
         }}>
           <For each={Array.from(panes.keys())}>
             {i => <button
-              classList={{[styles.on]: ctx.pane() === i}}
+              classList={{[styles.on]: pane() === i}}
               onclick={() => {
-                setPane(i);
-                scrollToPane();
+                scrollToPane(i);
               }}
             >
               <div/>
@@ -77,7 +68,7 @@ const App: Component = () => {
         </For>
       </div>
     </div>
-  </AppCtx.Provider>;
+  </>;
 };
 
 const root = document.getElementById("root")!;

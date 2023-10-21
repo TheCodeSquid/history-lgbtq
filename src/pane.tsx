@@ -1,6 +1,6 @@
-import {createSignal, onCleanup, onMount, ParentComponent} from "solid-js";
+import {ParentComponent} from "solid-js";
 
-import {useAppCtx} from "./main";
+import {elemTop} from "./util";
 
 import styles from "./pane.module.css";
 
@@ -9,30 +9,8 @@ export const Pane: ParentComponent<{
   imgUrl?: string,
   light?: boolean
 }> = (props) => {
-  const ctx = useAppCtx()!;
-  const [scroll, setScroll] = createSignal(0);
-
-  let elem: HTMLDivElement | undefined;
-
-  const updateScroll = () => {
-    const top = elem!.getBoundingClientRect().y;
-    setScroll(top);
-
-    if (ctx.pane() < props.index && top <= window.innerHeight / 2)
-      ctx.setPane(props.index);
-    else if (ctx.pane() > props.index && top >= -window.innerHeight / 2)
-      ctx.setPane(props.index);
-  };
-
-  onMount(() => {
-    window.addEventListener("scroll", updateScroll);
-    window.addEventListener("resize", updateScroll);
-  });
-
-  onCleanup(() => {
-    window.removeEventListener("scroll", updateScroll);
-    window.removeEventListener("resize", updateScroll);
-  });
+  let elem: HTMLDivElement | undefined = undefined;
+  const top = elemTop(() => elem);
 
   return <div class={styles.wrapper} ref={elem}>
     <div classList={{
@@ -40,7 +18,7 @@ export const Pane: ParentComponent<{
       [styles.pane]: true,
       [styles.light]: props.light
     }} style={{
-      "--offset": (scroll() / window.innerHeight) * 10 + "deg"
+      "--offset": top() * 10 + "deg"
     }}>
       <div classList={{
         [styles.bg]: true,
